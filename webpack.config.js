@@ -60,11 +60,6 @@ module.exports = (env, argv) => {
           }
         },
         'postcss-loader',
-        {
-          loader: "sass-loader", options: {
-            sourceMap: true
-          }
-        }
       ],
     });
     return conf;
@@ -76,7 +71,6 @@ module.exports = (env, argv) => {
       MiniCssExtractPlugin.loader,
       'css-loader',
       'postcss-loader',
-      'sass-loader'
     ],
   });
   return conf;

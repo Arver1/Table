@@ -1,8 +1,8 @@
 import React from 'react';
 import App from './App';
 
-function Root() {
-  return <App />;
+function Root(props) {
+  return <App {...props} />;
 }
 
 export default Root;
