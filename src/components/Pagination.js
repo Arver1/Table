@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Pagination({ total, pageMax, changePage, activePage }) {
   const amount = Math.ceil(total / pageMax);
@@ -46,5 +47,12 @@ function Pagination({ total, pageMax, changePage, activePage }) {
     </div>
   );
 }
+
+Pagination.propTypes = {
+  total: PropTypes.number,
+  pageMax: PropTypes.number,
+  activePage: PropTypes.number,
+  changePage: PropTypes.func,
+};
 
 export default Pagination;

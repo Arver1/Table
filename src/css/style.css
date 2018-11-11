@@ -8,6 +8,7 @@ ul,
 ol,
 p,
 fieldset,
+label,
 legend {
     margin: 0;
     padding: 0;
@@ -25,6 +26,13 @@ html, body {
 }
 th {
     position: relative;
+}
+.table thead th{
+    border-top: none;
+    border-bottom: 3px solid #3F3F3F;
+}
+.table tbody {
+    border-bottom: 3px solid #3F3F3F;
 }
 th::before {
     content: '';
@@ -90,5 +98,22 @@ th::after {
 .Pagination__item--active {
     background: #F2F2F2;
     outline: 1px solid #dee2e6;
+}
+.main-search {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    padding: 20px 0;
+}
+.main-search__label {
+    line-height: 25px;
+    font-size: 1rem;
+    margin-right: 10px;
+}
+.main-search__btn {
+    font-weight: 500;
+}
+.main-search__field {
+    min-width: 250px;
 }
 

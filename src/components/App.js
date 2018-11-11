@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import WorkerList from './WorkerList';
 import Pagination from './Pagination';
+import SearchBar from './SearchBar';
 import isNumber from '../util';
 
 Date.prototype.format = function(format = 'yyyy-mm-dd') {
@@ -54,11 +55,39 @@ class App extends PureComponent {
     });
   };
 
+  searchWorkers = value => {
+    if (!value) return;
+    if (value === 'all') {
+      return this.setState({
+        workers: this.props.workers,
+      });
+    }
+    const workers = [...this.props.workers].filter(it => {
+      let i = 0;
+      const keys = Object.keys(it);
+      while (i < keys.length) {
+        const temp =
+          typeof it[keys[i]] === 'number'
+            ? it[keys[i]] + ''
+            : keys[i] === 'salary'
+            ? '$' + it[keys[i]]
+            : it[keys[i]].toLowerCase();
+        if (temp.indexOf(value) !== -1) return true;
+        i++;
+      }
+      return false;
+    });
+    this.setState({
+      workers,
+    });
+  };
+
   render() {
     const index = this.state.activePage * this.pageMax;
     const workers = this.state.workers.slice(index, index + this.pageMax);
     return (
       <main className="row h-100 table-responsive">
+        <SearchBar searchWorkers={this.searchWorkers} />
         <WorkerList workers={workers} sortWorkers={this.sortWorkers} />
         <Pagination
           total={this.state.workers.length}

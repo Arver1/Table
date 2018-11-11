@@ -5,6 +5,7 @@ import Worker from './Worker';
 class WorkerList extends PureComponent {
   static propTypes = {
     workers: PropTypes.array,
+    sortWorkers: PropTypes.func,
   };
   constructor(props) {
     super(props);
@@ -23,6 +24,9 @@ class WorkerList extends PureComponent {
   }
 
   getBody = workers => {
+    if (!workers || !workers.length) {
+      return;
+    }
     return workers.map(worker => (
       <Worker
         worker={worker}
@@ -34,7 +38,7 @@ class WorkerList extends PureComponent {
   };
 
   sortByDate = () => {
-    const field = 'start_date'
+    const field = 'start_date';
     const direction = this.direction[field] ? 1 : -1;
     const compareF = (a, b) => {
       const first = +new Date(a[field]);
