@@ -66,7 +66,12 @@ class App extends PureComponent {
       let i = 0;
       const keys = Object.keys(it);
       while (i < keys.length) {
-        const temp =
+        let temp = null;
+        if (keys[i] === 'start_date') {
+          temp = new Date(it[keys [i]]).format('yyyy/mm/dd');
+          if (temp.indexOf(value) !== -1) return true;
+        }
+        temp =
           typeof it[keys[i]] === 'number'
             ? it[keys[i]] + ''
             : keys[i] === 'salary'
@@ -79,6 +84,7 @@ class App extends PureComponent {
     });
     this.setState({
       workers,
+      activePage: 0,
     });
   };
 

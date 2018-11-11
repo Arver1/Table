@@ -1,7 +1,9 @@
 const path = require('path');
 const CaseSensitivePathsPlugin = require('case-sensitive-paths-webpack-plugin');
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+
 
 const PATHS = {
   source: path.join(__dirname, 'src'),
@@ -11,10 +13,9 @@ const PATHS = {
 const styleLoader = {
   loader: 'style-loader',
   options: {
-    sourceMap: true
-  }
+    sourceMap: true,
+  },
 };
-
 
 const conf = {
   context: PATHS.source,
@@ -23,7 +24,7 @@ const conf = {
   output: {
     path: PATHS.build,
     filename: 'bundle.js',
-    publicPath: '/build/'
+    publicPath: '/build/',
   },
 
   module: {
@@ -36,28 +37,32 @@ const conf = {
           cacheDirectory: true,
           plugins: ['react-hot-loader/babel'],
         },
-      }
-    ]
+      },
+    ],
   },
 
   plugins: [
     new CaseSensitivePathsPlugin(),
     new MiniCssExtractPlugin(),
-    new OptimizeCSSAssetsPlugin({})
-  ]
+    new OptimizeCSSAssetsPlugin({}),
+    new HtmlWebpackPlugin({
+      template: '../index.html',
+    }),
+  ],
 };
 
 module.exports = (env, argv) => {
-  if(argv.mode === 'development') {
+  if (argv.mode === 'development') {
     conf.devtool = 'source-map';
     conf.module.rules.push({
       test: /\.(sa|sc|c)ss$/,
       use: [
         'style-loader',
         {
-          loader: "css-loader", options: {
-            sourceMap: true
-          }
+          loader: 'css-loader',
+          options: {
+            sourceMap: true,
+          },
         },
         'postcss-loader',
       ],
@@ -65,13 +70,10 @@ module.exports = (env, argv) => {
     return conf;
   }
   conf.devtool = false;
+  conf.output.publicPath = './';
   conf.module.rules.push({
     test: /\.(sa|sc|c)ss$/,
-    use: [
-      MiniCssExtractPlugin.loader,
-      'css-loader',
-      'postcss-loader',
-    ],
+    use: [MiniCssExtractPlugin.loader, 'css-loader', 'postcss-loader'],
   });
   return conf;
 };
